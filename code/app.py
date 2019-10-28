@@ -7,6 +7,7 @@ from resources.user import UserRegister
 from resources.item import Item, ItemList
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'  #
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Item that has been change but not added in database. SQL_Alchemy has advance tracker that is why we are turning it off
 app.secret_key = 'This is my secret key please don\'t share it '
 api = Api(app)
@@ -19,5 +20,5 @@ api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__': 
     from db import db   # We are importing it here because of circular depenedencies
-    db.init_app(db)   
+    db.init_app(app)   
     app.run(port=5000, debug=True)
