@@ -12,6 +12,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Item that has been change
 app.secret_key = 'This is my secret key please don\'t share it '
 api = Api(app)
 
+#Automatic table creation
+@app.before_first_request
+def create_tables():
+    db.create_all();
+
 jwt = JWT(app, authenticate, identity)
 
 api.add_resource(Item, '/item/<string:name>')
